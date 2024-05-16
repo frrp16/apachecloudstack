@@ -21,7 +21,7 @@ Kelompok 3 Komputasi Awan 2023/2024
 IP address for
 |     Management      | System   |   Public     |
 |---------- |----------|------------|
-|   192.168.104.10       |    192.168.104.151-160    |    192.168.104.200-210   |
+|   192.168.104.23       |    192.168.104.121-130    |    192.168.104.131-140   |
 
 
 ### Set Static IP Address for Management Server
@@ -33,26 +33,26 @@ IP address for
 ```
 cat /etc/netplan/01-netcfg.yaml
 ```
-
+__01-netcfg.yaml__
 ```
 # This is the network config written by 'subiquity'
 network:
   version: 2
   renderer: networkd
   ethernets:
-    eno1:
+    enp1s0:
       dhcp4: false
       dhcp6: false
       optional: true
   bridges:
     cloudbr0:
-      addresses: [192.168.104.10/24]
+      addresses: [192.168.104.23/24]
       routes:
         - to: default
           via: 192.168.104.1
       nameservers:
         addresses: [1.1.1.1,8.8.8.8]
-      interfaces: [eno1]
+      interfaces: [enp1s0]
       dhcp4: false
       dhcp6: false
       parameters:
@@ -60,27 +60,27 @@ network:
         forward-delay: 0
 ```
 
-Apply your network configuration
+__Apply your network configuration__
 ```
 sudo -i
 netplan generate
 netplan apply
 reboot
 ```
-Update Your System and Install Some Useful Tools
+__Update Your System and Install Some Useful Tools__
 ```
 apt update & upgrade
 apt install htop lynx duf -y
 apt install bridge-utils
 ```
-Configure LVM (OPTIONAL)
+__Configure LVM (OPTIONAL)__
 ```
 #not required unless logical volume is used
 lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 resize2fs /dev/ubuntu-vg/ubuntu-lv
 ```
 
-Install SSH Server and Others Tools
+__Install SSH Server and Others Tools__
 ```
 apt-get install openntpd openssh-server sudo vim htop tar -y
 apt-get install intel-microcode -y
@@ -88,25 +88,25 @@ passwd root
 #change it to Pa$$w0rd
 ```
 
-Enable Root Login (PermitRootLogin)
+__Enable Root Login (PermitRootLogin)__
 ```
 sed -i '/#PermitRootLogin prohibit-password/a PermitRootLogin yes' /etc/ssh/sshd_config
 #restart ssh service
 service ssh restart
 ```
-Set Timezone
+__Set Timezone__
 ```
 timedatectl set-timezone Asia/Jakarta
 ```
 
 ## APACHE CLOUDSTACK INSTALLATION
 ### CloudStack Management Server and Everything in one machine
-Reference
+__Reference__
 ```
 https://rohityadav.cloud/blog/cloudstack-kvm/
 ```
 
-CloudStack Management Server Setup from SHAPEBLUE ACS 4.18
+__CloudStack Management Server Setup from SHAPEBLUE ACS 4.18__
 ```
 sudo -i
 mkdir -p /etc/apt/keyrings
@@ -120,12 +120,12 @@ apt-get update -y
 apt-get install cloudstack-management mysql-server
 ```
 
-CloudStack Usage and Billing (OPTIONAL)
+__CloudStack Usage and Billing (OPTIONAL)__
 ```
 apt-get install cloudstack-usage 
 ```
 
-Configure Database --> next time using sed
+__Configure Database --> next time using sed__
 ```
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
@@ -145,12 +145,12 @@ binlog-format = 'ROW'
 systemctl restart mysql
 ```
 
-Deploy Database as Root and Then Create "cloud" User with Password "cloud" too
+__Deploy Database as Root and Then Create "cloud" User with Password "cloud" too__
 ```
-cloudstack-setup-databases cloud:cloud@localhost --deploy-as=root:Pa$$w0rd -i 192.168.104.10
+cloudstack-setup-databases cloud:cloud@localhost --deploy-as=root:Pa$$w0rd -i 192.168.104.23
 ```
 
-Configure Primary and Secondary Storage
+__Configure Primary and Secondary Storage__
 ```
 apt-get install nfs-kernel-server quota
 echo "/export  *(rw,async,no_root_squash,no_subtree_check)" > /etc/exports
@@ -158,7 +158,7 @@ mkdir -p /export/primary /export/secondary
 exportfs -a
 ```
 
-Configure NFS server
+__Configure NFS server__
 ```
 sed -i -e 's/^RPCMOUNTDOPTS="--manage-gids"$/RPCMOUNTDOPTS="-p 892 --manage-gids"/g' /etc/default/nfs-kernel-server
 sed -i -e 's/^STATDOPTS=$/STATDOPTS="--port 662 --outgoing-port 2020"/g' /etc/default/nfs-common
@@ -168,12 +168,12 @@ service nfs-kernel-server restart
 ```
 
 ### Configure Cloudstack Host with KVM Hypervisor
-Install KVM Host and Cloudstack Agent
+__Install KVM Host and Cloudstack Agent__
 ```
 apt-get install qemu-kvm cloudstack-agent
 ```
 
-Configure Qemu KVM Virtualisation Management (libvirtd)
+__Configure Qemu KVM Virtualisation Management (libvirtd)__
 ```
 sed -i -e 's/\#vnc_listen.*$/vnc_listen = "0.0.0.0"/g' /etc/libvirt/qemu.conf
 
@@ -193,7 +193,7 @@ systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd
 systemctl restart libvirtd
 ```
 
-More Configuration to Support Docker and Other Services
+__More Configuration to Support Docker and Other Services__
 ```
 #on certain hosts where you may be running docker and other services, 
 #you may need to add the following in /etc/sysctl.conf
@@ -204,7 +204,7 @@ echo "net.bridge.bridge-nf-call-iptables = 0" >> /etc/sysctl.conf
 sysctl -p
 ```
 
-Generate Unigue Host ID
+__Generate Unigue Host ID__
 ```
 apt-get install uuid -y
 UUID=$(uuid)
@@ -212,7 +212,7 @@ echo host_uuid = \"$UUID\" >> /etc/libvirt/libvirtd.conf
 systemctl restart libvirtd
 ```
 
-Configure Firewall iptables (OPTIONAL)
+__Configure Firewall iptables (OPTIONAL)__
 ```
 NETWORK=192.168.101.0/24
 iptables -A INPUT -s $NETWORK -m state --state NEW -p udp --dport 111 -j ACCEPT
@@ -235,7 +235,7 @@ apt-get install iptables-persistent
 #just answer yes yes
 ```
 
-Disable apparmour on libvirtd
+__Disable apparmour on libvirtd__
 ```
 ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 ln -s /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper /etc/apparmor.d/disable/
@@ -243,7 +243,7 @@ apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
 apparmor_parser -R /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper
 ```
 
-Launch Management Server and Start Your Cloud
+__Launch Management Server and Start Your Cloud__
 ```
 cloudstack-setup-management
 systemctl status cloudstack-management
@@ -251,29 +251,25 @@ tail -f /var/log/cloudstack/management/management-server.log
 #wait until all services (components) running successfully
 ```
 
-Open CloudStack Dashboard
+__Open CloudStack Dashboard__
 ```
-#after management server is UP, proceed to http://192.168.104.21(i.e. the cloudbr0-IP):8080/client 
-#and log in using the default credentials - username admin and password password.
-#Microsoft Edge browser require secure https protocol thus it might reject the connection without ssl
-
-http://192.168.104.10:8080/client
+http://192.168.104.23:8080/client
 ```
 
 ## Enable XRDP (OPTIONAL) ---> Not working for new UBUNTU
-Reference 
+__Reference__
 ```
 #https://www.digitalocean.com/community/tutorials/how-to-enable-remote-desktop-protocol-using-xrdp-on-ubuntu-22-04
 ```
 
-Install Desktop XFCE environtment and Remote Desktop XRDP
+__Install Desktop XFCE environtment and Remote Desktop XRDP__
 ```
 apt update
 apt install xfce4 xfce4-goodies -y
 apt install xrdp -y
 ```
 
-configure to allow tcp ipv4 listen to 3389. It's a bug only listen to tcp6 --> port=tcp://:3389 --> /etc/xrdp/xrdp.ini
+__Configure to allow tcp ipv4 listen to 3389. It's a bug only listen to tcp6 --> port=tcp://:3389 --> /etc/xrdp/xrdp.ini__
 ```
 netstat -tulpn | grep xrdp
 
@@ -300,12 +296,12 @@ echo deb [signed-by=/etc/apt/keyrings/cloudstack.gpg] http://packages.shapeblue.
 apt-get update -y
 ```
 
-Install KVM Host and Cloudstack Agent
+__Install KVM Host and Cloudstack Agent__
 ```
 apt-get install qemu-kvm cloudstack-agent
 ```
 
-Configure Qemu KVM Virtualisation Management (libvirtd)
+__Configure Qemu KVM Virtualisation Management (libvirtd)__
 ```
 sed -i -e 's/\#vnc_listen.*$/vnc_listen = "0.0.0.0"/g' /etc/libvirt/qemu.conf
 
@@ -324,7 +320,7 @@ echo 'auth_tcp = "none"' >> /etc/libvirt/libvirtd.conf
 systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tls.socket libvirtd-tcp.socket
 systemctl restart libvirtd
 ```
-More Configuration to Support Docker and Other Services
+__More Configuration to Support Docker and Other Services__
 ```
 #on certain hosts where you may be running docker and other services, 
 #you may need to add the following in /etc/sysctl.conf
@@ -335,7 +331,7 @@ echo "net.bridge.bridge-nf-call-iptables = 0" >> /etc/sysctl.conf
 sysctl -p
 ```
 
-Generate Unigue Host ID
+__Generate Unigue Host ID__
 ```
 apt-get install uuid -y
 UUID=$(uuid)
@@ -343,13 +339,13 @@ echo host_uuid = \"$UUID\" >> /etc/libvirt/libvirtd.conf
 systemctl restart libvirtd
 ```
 
-Firewall disabled (not active) for simplicity
+__Firewall disabled (not active) for simplicity__
 ```
 ufw status
 #make sure it's inactive
 ```
 
-Disable apparmour on libvirtd
+__Disable apparmour on libvirtd__
 ```
 ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 ln -s /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper /etc/apparmor.d/disable/
@@ -357,7 +353,7 @@ apparmor_parser -R /etc/apparmor.d/usr.sbin.libvirtd
 apparmor_parser -R /etc/apparmor.d/usr.lib.libvirt.virt-aa-helper
 ```
 
-STORAGE SETUP for Additional PRIMARY and SECONDARY
+__STORAGE SETUP for Additional PRIMARY and SECONDARY__
 ```
 apt-get install nfs-kernel-server quota
 echo "/export  *(rw,async,no_root_squash,no_subtree_check)" > /etc/exports
@@ -365,7 +361,7 @@ mkdir -p /export/primary /export/secondary
 exportfs -a
 ```
 
-Configure NFS server
+__Configure NFS server__
 ```
 sed -i -e 's/^RPCMOUNTDOPTS="--manage-gids"$/RPCMOUNTDOPTS="-p 892 --manage-gids"/g' /etc/default/nfs-kernel-server
 sed -i -e 's/^STATDOPTS=$/STATDOPTS="--port 662 --outgoing-port 2020"/g' /etc/default/nfs-common
@@ -374,7 +370,7 @@ sed -i -e 's/^RPCRQUOTADOPTS=$/RPCRQUOTADOPTS="-p 875"/g' /etc/default/quota
 service nfs-kernel-server restart
 ```
 
-Enable Root Login (PermitRootLogin)
+__Enable Root Login (PermitRootLogin)__
 ```
 sed -i '/#PermitRootLogin prohibit-password/a PermitRootLogin yes' /etc/ssh/sshd_config
 #restart ssh service
