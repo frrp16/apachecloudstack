@@ -315,6 +315,13 @@ Configure cluster of your pod by giving your host the name of your host IP addre
 ![Screenshot 2024-05-29 211514](https://github.com/frrp16/apachecloudstack/assets/87307467/a3a29638-77eb-4033-ab3c-fa6a15400405)
 ![Screenshot 2024-05-29 211536](https://github.com/frrp16/apachecloudstack/assets/87307467/8d783971-49ab-4f19-bcb8-18a8ccf4a698)
 
+#### Configuring Primary Storage
+Configure the primary storage by selecting __nfs__ as the protocol. Then specify host IP address as server and the path is the __/export/primary__ directories.
+![Screenshot 2024-05-29 211616](https://github.com/frrp16/apachecloudstack/assets/87307467/c556dabc-6094-46fe-9b03-0e1f793f418d)
+
+#### Configuring Secondary Storage
+Configure secondary storage by doing the same way as primary storage, substituting path to __/export/secondary__.
+![Screenshot 2024-05-29 211703](https://github.com/frrp16/apachecloudstack/assets/87307467/79b476a0-ff0b-4936-80f8-3f9b9b8a47d2)
 
 
 
