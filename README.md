@@ -29,8 +29,9 @@ IP address for
 #### Network Configuration with Netplan
 #### Rename all existing configuration by adding .bak
 ```
+mv 00-installer-config.yaml 00-installer-config.yaml.bak
 ```
-
+#### Create new configuration file
 ```
 cat /etc/netplan/01-netcfg.yaml
 ```
@@ -205,7 +206,7 @@ echo "net.bridge.bridge-nf-call-iptables = 0" >> /etc/sysctl.conf
 sysctl -p
 ```
 
-__Generate Unigue Host ID__
+__Generate Unique Host ID__
 ```
 apt-get install uuid -y
 UUID=$(uuid)
@@ -256,6 +257,10 @@ __Open CloudStack Dashboard__
 ```
 http://192.168.104.23:8080/client
 ```
+Your login username should be __admin__, and your password should be __password__.
+
+![Screenshot 2024-05-29 210247](https://github.com/frrp16/apachecloudstack/assets/87307467/52866c37-fd48-4115-b71f-1c0bee5c96eb)
+
 
 ## Enable XRDP (OPTIONAL) ---> Not working for new UBUNTU
 __Reference__
@@ -280,6 +285,38 @@ systemctl status xrdp
 ```
 
 ## Continue with Instalation (Dashboard)
+When inside of the interface, click on __continue with installation__. It will ask for you to change your username and password. Do so and proceed. 
+Clicking continue, CloudStack will ask to define a Zone. For this tutorial, we use core zone and choose Advanced core zone type with security group disabled.
+
+#### Configuring Zone
+Required fields are the name, IPv4 DNS1, Internal DNS 1, and Hypervisor.
+
+![Screenshot 2024-05-29 211212](https://github.com/frrp16/apachecloudstack/assets/87307467/1b865996-5b58-4f93-8fc2-981f35a81000)
+
+Under network, you can leave your Physical Network as default.
+
+![Screenshot 2024-05-29 211248](https://github.com/frrp16/apachecloudstack/assets/87307467/5505c35b-ef5b-4147-97e6-725abdfff0b4)
+
+Configure the public traffic.
+
+![Screenshot 2024-05-29 211329](https://github.com/frrp16/apachecloudstack/assets/87307467/dc994615-8b15-4fb3-b379-6e8c28dd64bb)
+
+#### Configuring Pod
+Configure your pod by specifying pod name and selecting the range of reserved system IP addresses.
+
+![Screenshot 2024-05-29 211427](https://github.com/frrp16/apachecloudstack/assets/87307467/1031ff72-10fe-43f6-86a1-4b205845986c)
+
+Configure the guest network by specifying VLAN range.
+
+![Screenshot 2024-05-29 211455](https://github.com/frrp16/apachecloudstack/assets/87307467/ad6bfea5-107c-4dbe-878a-cc0635d9a71b)
+
+#### Configuring Cluster
+Configure cluster of your pod by giving your host the name of your host IP address, followed by the login of root / password of the root user on your host.
+![Screenshot 2024-05-29 211514](https://github.com/frrp16/apachecloudstack/assets/87307467/a3a29638-77eb-4033-ab3c-fa6a15400405)
+![Screenshot 2024-05-29 211536](https://github.com/frrp16/apachecloudstack/assets/87307467/8d783971-49ab-4f19-bcb8-18a8ccf4a698)
+
+
+
 
 ## Register ISO and Add Instance
 
