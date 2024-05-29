@@ -326,6 +326,17 @@ Configure secondary storage by doing the same way as primary storage, substituti
 
 
 ## Register ISO and Add Instance
+This section will show how to upload an ISO and then create a instance utilizing that same ISO within CloudStack. For this example, we will be registering a __Ubuntu 20.04 server__ ISO from https://releases.ubuntu.com/focal/ubuntu-20.04.6-live-server-amd64.iso. 
+
+First, navigate to __Images -> ISOs__. There, click on + Register ISO. There, you will need to input some requested information. The __URL__ is the link to the ISO you want. __Bootable__ lets CloudStack know that this ISO is a bootable disc. __OS Type__ is used to help CloudStack prepare your ISO and makes assumptions to improve performance for the guest. __Extractable__ makes it so that the ISO is available for extraction, Public allows for other users to access the ISO, and __Featured__ will allow for the ISO to be easily selected when creating an instance.
+
+![1Picture1](https://github.com/frrp16/apachecloudstack/assets/87307467/b15b30ec-4cd8-4c74-816f-2268f6c1d2cd)
+
+Once done, CloudStack will begin downloading the ISO. This may take a while. Once done, create an instance utilizing that ISO and install your operating system. 
+
+
+Instances can be created in __Instances -> Add Instance__. Be sure to select your network in the Networks section of instance creation. You can leave the IP address and the MAC address blank if you want CloudStack to automatically configure that for you. Once done, CloudStack will automatically begin creating the instance. Click on the name of the Instance and then click on the shell icon in the top right. This will launch a connection to the instance within the browser.
+
 
 ## Install Additional KVM Host
 ```
