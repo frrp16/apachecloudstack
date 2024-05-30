@@ -15,8 +15,7 @@ Kelompok 3 Komputasi Awan 2023/2024
 
 #### Link Video Rekaman
 
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/paYmTJH4Bcw?si=axyysODHTmK483X0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+https://youtu.be/paYmTJH4Bcw
 
 
 ### Network Configuration and Additional Tools
