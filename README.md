@@ -393,7 +393,7 @@ echo "net.bridge.bridge-nf-call-iptables = 0" >> /etc/sysctl.conf
 sysctl -p
 ```
 
-__Generate Unigue Host ID__
+__Generate Unique Host ID__
 ```
 apt-get install uuid -y
 UUID=$(uuid)
