@@ -7,6 +7,7 @@ Kelompok 3 Komputasi Awan 2023/2024
 - Farras Rafi Permana (2106700990)
 - Muhammad Aqil Muzakky (2106731604)
 - Muhammad Irfan Fakhirianto (1806200356)
+  
 
 <br>
 
