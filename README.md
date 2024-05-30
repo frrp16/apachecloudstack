@@ -13,7 +13,7 @@ Kelompok 3 Komputasi Awan 2023/2024
 
 ## ALL in ONE - Cloudstack Management and Host in One Machine
 
-![Link Video Rekaman](https://univindonesia-my.sharepoint.com/:v:/g/personal/abdul_fikih_office_ui_ac_id/EZsySklt5m1CvuYmxqiW4UUBaSDyZTOTe4F0r9ZaI9tdlQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=JV3gci)
+![Link Video Rekaman](https://www.youtube.com/watch?v=paYmTJH4Bcw)
 
 ### Network Configuration and Additional Tools
 
