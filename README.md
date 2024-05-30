@@ -13,7 +13,7 @@ Kelompok 3 Komputasi Awan 2023/2024
 
 ## ALL in ONE - Cloudstack Management and Host in One Machine
 
-![Link Video Rekaman](https://www.youtube.com/watch?v=paYmTJH4Bcw)
+Link Video Rekaman: https://www.youtube.com/watch?v=paYmTJH4Bcw
 
 ### Network Configuration and Additional Tools
 
