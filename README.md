@@ -323,6 +323,8 @@ Configure the primary storage by selecting __nfs__ as the protocol. Then specify
 Configure secondary storage by doing the same way as primary storage, substituting path to __/export/secondary__.
 ![Screenshot 2024-05-29 211703](https://github.com/frrp16/apachecloudstack/assets/87307467/79b476a0-ff0b-4936-80f8-3f9b9b8a47d2)
 
+Wait a few minute for Cloudstack to install everything. When installation is complete, the dashboard will display statistic of available infrastructure, compute resource, and storage.
+![Screenshot 2024-05-30 081851](https://github.com/frrp16/apachecloudstack/assets/87307467/4a432b29-6720-4fa1-b545-8474a4ae72c7)
 
 
 ## Register ISO and Add Instance
@@ -335,7 +337,11 @@ First, navigate to __Images -> ISOs__. There, click on + Register ISO. There, yo
 Once done, CloudStack will begin downloading the ISO. This may take a while. Once done, create an instance utilizing that ISO and install your operating system. 
 
 
-Instances can be created in __Instances -> Add Instance__. Be sure to select your network in the Networks section of instance creation. You can leave the IP address and the MAC address blank if you want CloudStack to automatically configure that for you. Once done, CloudStack will automatically begin creating the instance. Click on the name of the Instance and then click on the shell icon in the top right. This will launch a connection to the instance within the browser.
+Instances can be created in __Instances -> Add Instance__. Be sure to select network in the Networks section of instance creation. You can leave the IP address and the MAC address blank if you want CloudStack to automatically configure that for you. Once done, CloudStack will automatically begin creating the instance. 
+
+
+
+Click on the name of the Instance and then click on the shell icon in the top right. This will launch a connection to the instance within the browser.
 
 
 ## Install Additional KVM Host
